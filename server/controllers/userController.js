@@ -47,6 +47,9 @@ export const signup = async (req, res) => {
     });
   } catch (error) {
     console.log(error.message);
-    res.status();
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
   }
 };
