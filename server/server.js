@@ -3,6 +3,7 @@ import "dotenv/config";
 import cors from "cors";
 import http from "http";
 import { connectDB } from "./config/db.js";
+import userRouter from "./routes/userRoutes.js";
 
 // Create a express server and HTTP server
 const app = express();
@@ -12,7 +13,9 @@ const server = http.createServer(app);
 app.use(express.json({ limit: "4mb" }));
 app.use(cors());
 
+// Route setups
 app.use("/api/v1/status", (_, res) => res.send("Server is Live....!!!"));
+app.use("/api/v1/auth", userRouter);
 
 // Connect to DB
 await connectDB();
