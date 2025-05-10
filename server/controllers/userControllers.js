@@ -1,6 +1,5 @@
 import User from "../models/user.js";
 import { generateToken } from "../config/utils.js";
-import User from "../models/user.js";
 import cloudinary from "../config/cloudinary.js";
 
 /*
