@@ -51,7 +51,7 @@ export const signup = async (req, res) => {
     console.log(error.message);
     res.status(500).json({
       success: false,
-      message: "Internal Server Error",
+      message: error.message,
     });
   }
 };
@@ -87,7 +87,7 @@ export const login = async (req, res) => {
     console.log(error.message);
     res.status(500).json({
       success: false,
-      message: "Internal Server Error",
+      message: error.message,
     });
   }
 };
@@ -130,7 +130,7 @@ export const updateProfile = async (req, res) => {
     console.log(error.message);
     res.status(500).json({
       success: false,
-      message: "Internal Server Error",
+      message: error.message,
     });
   }
 };
