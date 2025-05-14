@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import { useContext, useState } from "react";
 import assets from "../assets/assets";
+import { AuthContext } from "../../context/AuthContext";
 
 const Login = () => {
   const [currState, setCurrState] = useState("Sign up");
-  const [fullname, setFullName] = useState("");
+  const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [bio, setBio] = useState("");
   const [isDataSubmitted, setIsDataSubmitted] = useState(false);
+
+  const { login } = useContext(AuthContext);
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
@@ -15,6 +18,12 @@ const Login = () => {
       setIsDataSubmitted(true);
       return;
     }
+    login(currState === "Sign up" ? "signup" : "login", {
+      fullName,
+      email,
+      password,
+      bio,
+    });
   };
 
   return (
@@ -41,7 +50,7 @@ const Login = () => {
           <input
             type="text"
             onChange={(e) => setFullName(e.target.value)}
-            value={fullname}
+            value={fullName}
             className="p-2 border border-gray-500 rounded-md focus:outline-none"
             placeholder="Full Name"
             required
@@ -71,7 +80,7 @@ const Login = () => {
 
         {currState === "Sign up" && isDataSubmitted && (
           <textarea
-            onClick={(e) => setBio(e.target.value)}
+            onChange={(e) => setBio(e.target.value)}
             value={bio}
             rows={4}
             className="p-2 border border-gray-500 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"

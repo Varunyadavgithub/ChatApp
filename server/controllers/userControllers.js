@@ -1,6 +1,7 @@
 import User from "../models/user.js";
 import { generateToken } from "../config/utils.js";
 import cloudinary from "../config/cloudinary.js";
+import bcrypt from "bcryptjs";
 
 /*
     Status Codes
@@ -22,7 +23,7 @@ export const signup = async (req, res) => {
         .json({ success: false, message: "All fields are required." });
     }
 
-    const user = User.findOne({ email });
+    const user = await User.findOne({ email });
     if (user) {
       return res.status(409).json({
         success: false,
@@ -30,7 +31,7 @@ export const signup = async (req, res) => {
       });
     }
 
-    const salt = await bcrypt.getSalt(10);
+    const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
     const newUser = await User.create({

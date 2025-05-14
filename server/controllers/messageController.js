@@ -8,12 +8,12 @@ export const getUserForSidebar = async (req, res) => {
   try {
     const userId = req.user._id;
     const filteredUsers = await User.find({ _id: { $ne: userId } }).select(
-      "password"
+      "-password"
     );
 
     // Count number of messages not seen
     const unseenMessages = {};
-    const promises = filteredUser.map(async (user) => {
+    const promises = filteredUsers.map(async (user) => {
       const messages = await Message.find({
         senderId: user._id,
         receiverId: userId,
@@ -86,7 +86,7 @@ export const sendMessage = async (req, res) => {
   try {
     const { text, image } = req.body;
     const receiverId = req.params.id;
-    const senderId = req.user_id;
+    const senderId = req.user._id;
 
     let imageUrl;
     if (image) {
@@ -106,7 +106,7 @@ export const sendMessage = async (req, res) => {
     if (receiverSocketId) {
       io.to(receiverSocketId).emit("newMessage", newMessage);
     }
-    
+
     res.status(200).json({ success: true, newMessage });
   } catch (error) {
     console.log(error.message);
