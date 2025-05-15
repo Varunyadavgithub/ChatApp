@@ -14,7 +14,11 @@ const server = http.createServer(app);
 // <--------------------------------- Socker.io Setup Start --------------------------------->
 // Initialize socket.io server
 export const io = new Server(server, {
-  cors: { origin: "*" },
+  cors: {
+    origin: "https://chatwithvarun.vercel.app",
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    credentials: true,
+  },
 });
 
 // Store Online Users
@@ -38,8 +42,15 @@ io.on("connection", (socket) => {
 
 // Middleware setup
 app.use(express.json({ limit: "4mb" }));
-app.use(cors());
-
+// 🔥 Set CORS properly with credentials
+app.use(
+  cors({
+    origin: "https://chatwithvarun.vercel.app",
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+  })
+);
 // Route setups
 app.use("/api/v1/status", (_, res) => res.send("Server is Live....!!!"));
 app.use("/api/v1/auth", userRouter);
