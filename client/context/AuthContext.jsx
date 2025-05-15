@@ -33,11 +33,12 @@ export const AuthProvider = ({ children }) => {
       const { data } = await axios.post(`/api/v1/auth/${state}`, credentials);
       if (data.success) {
         setAuthUser(data.userData);
-        connectSocket(data.userData);
         axios.defaults.headers.common["token"] = data.token;
         setToken(data.token);
         localStorage.setItem("token", data.token);
         toast.success(data.message);
+        connectSocket(data.userData);
+        checkAuth();
       } else {
         toast.error(data.message);
       }
@@ -53,8 +54,8 @@ export const AuthProvider = ({ children }) => {
     setAuthUser(null);
     setOnlineUsers([]);
     axios.defaults.headers.common["token"] = null;
-    toast.success("Loged out successfully");
     socket.disconnect();
+    toast.success("Loged out successfully");
   };
 
   // Update profile function to handle user profile updates
@@ -90,9 +91,9 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     if (token) {
       axios.defaults.headers.common["token"] = token;
+      checkAuth();
     }
-    checkAuth();
-  }, []);
+  }, [token]);
 
   const value = {
     axios,
