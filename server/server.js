@@ -16,7 +16,6 @@ const server = http.createServer(app);
 export const io = new Server(server, {
   cors: {
     origin: "https://chatwithvarun.vercel.app",
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
   },
 });
@@ -44,12 +43,9 @@ io.on("connection", (socket) => {
 app.use(
   cors({
     origin: "https://chatwithvarun.vercel.app",
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
   })
 );
-app.options("*", cors());
 app.use(express.json({ limit: "4mb" }));
 
 // Route setups
