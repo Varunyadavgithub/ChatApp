@@ -41,8 +41,6 @@ io.on("connection", (socket) => {
 // <--------------------------------- Socker.io Setup End --------------------------------->
 
 // Middleware setup
-app.use(express.json({ limit: "4mb" }));
-// 🔥 Set CORS properly with credentials
 app.use(
   cors({
     origin: "https://chatwithvarun.vercel.app",
@@ -51,6 +49,9 @@ app.use(
     credentials: true,
   })
 );
+app.options("*", cors());
+app.use(express.json({ limit: "4mb" }));
+
 // Route setups
 app.use("/api/v1/status", (_, res) => res.send("Server is Live....!!!"));
 app.use("/api/v1/auth", userRouter);
