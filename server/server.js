@@ -17,6 +17,7 @@ export const io = new Server(server, {
   cors: {
     origin: "https://chatwithvarun.vercel.app",
     credentials: true,
+    methods: ["GET", "POST"],
   },
 });
 
